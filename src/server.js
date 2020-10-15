@@ -3,7 +3,6 @@ const express = require('express')
 const app = express()
 const http = require('http').createServer(app)
 const io = require('socket.io')(http)
-const fs = require('fs')
 const path = require('path')
 const PORT = process.env.PORT || 3000
 const { v4: uuidV4 } = require('uuid')
@@ -26,12 +25,16 @@ app.get('/:roomID', (req, res) => {
      const { roomID } = req.params;
      console.log(rooms)
      if(rooms[roomID]) {
+     if(Object.values(rooms[roomID]['players']).length < 2) { 
      res.render('game', {
           'RoomID': roomID,
           'Users': JSON.stringify(rooms[roomID])
      })
 } else {
-     res.write('No Game Found')
+     res.send('Game full')
+}
+} else {
+     res.send('Game not found')
 }
 })
 
