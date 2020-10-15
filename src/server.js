@@ -40,7 +40,7 @@ app.get('/:roomID', (req, res) => {
 
 app.post('/select', (req, res) => {
      const { option, UserID, roomID, userName } = req.body
-     rooms[roomID]['players'][UserID]['option'] = option
+     if(rooms[roomID]['players'][UserID]) rooms[roomID]['players'][UserID]['option'] = option
      console.log('Emitted')
      io.sockets.emit('UserSelected', { option: option, UserID: UserID, userName: userName, RoomID: roomID})
      res.sendStatus(200)

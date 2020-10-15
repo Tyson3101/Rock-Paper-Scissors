@@ -176,7 +176,7 @@ socket.on('UserSelected', async ({option, UserID, userName, RoomID }) => {
           getElement('id', 'notifymsg').innerHTML =  ``
           getElement('id', 'reset').style['display'] = 'inline';
           if(winner === 'draw') {
-               getElement('id', 'winnermsg').innerHTML =  'draw'
+               getElement('id', 'winnermsg').innerHTML =  'Draw!'
                getElement('id', 'reset').style['display'] = 'inline';
           } else {
                getElement('id', 'winnermsg').innerHTML = `${users[winner]['username']} won`
