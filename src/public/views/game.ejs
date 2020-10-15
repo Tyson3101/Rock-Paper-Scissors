@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.1/socket.io.js"></script>
+     <script src="https://cdn.jsdelivr.net/gh/Tyson3101/getElement@6ec9593/src/main.js" defer></script>
+     <script src="/socket.io/socket.io.js" defer></script>
+     <title>Doucment</title>
+     <script>
+          const ROOM_ID = "<%= RoomID %>"
+          const USERSJSON = '<%= Users %>'
+          const USERS = JSON.parse(USERSJSON.replace(/&#34;/g, '"'))
+     </script>
+</head>
+<body>
+     <h1>Rock - Paper - Scissors</h1>
+     <div class="options ready">
+          <button class="notChosen" id="rock"><img src="../photo/Rock.jpg" alt="Rock"></button>
+          <button class="notChosen" id="paper"><img src="../photo/Paper.jpg" alt="Paper"></button>
+          <button class="notChosen" id="scissors"><img src="../photo/Scissors.png" alt="Scissors"></button>
+     </div>
+     <h3 id="notifymsg"></h3>
+     <h3 id="winnermsg"></h3>
+     <button id="reset" style="display: none;">Reset Game</button>
+     <script src="../js/game.js" defer></script>
+</body>
+</html>
