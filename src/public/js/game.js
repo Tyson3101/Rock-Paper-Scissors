@@ -8,28 +8,6 @@ function makeid() {
      return text;
 }
 
-function makeName() {
-     let randomNames = ['Disguised Kitten',
-     'MaliciousFeetOMG',
-     'PatientFeetLOL',
-     'RudeFeetOMG',
-     'MaliciousAnklesLOL',
-     'PatientAnklesOMG',
-     'RudeAnklesLMAO',
-     'Iammalicious',
-     'Iampatient',
-     'Iamrude',
-     'IamFaust',
-     'KittenMilk',
-     'Faust Rude Kitten',
-     'MindOfFaust',
-     'Gamerkitten',
-     'The Malicious Gamer',
-     'The Patient Gamer',
-     'The Rude Gamer',]
-     return randomNames[Math.floor(Math.random() * randomNames.length)]
-}
-
 const USER_ID = makeid()
 
 let namePromt = 'Input your name'
@@ -57,7 +35,10 @@ let users = {
      [USER_ID]: {
           username: USER_NAME,
           id: USER_ID,
-          option: null
+          option: null,
+          wins: 0,
+          lost: 0,
+          draws: 0
      },
 }
 
@@ -66,7 +47,10 @@ socket.on('userJoin', (userID, userName) => {
      users[userID] = {
           username: userName,
           id: userID,
-          option: null
+          option: null,
+          wins: 0,
+          lost: 0,
+          draws: 0
      }
      PLAYER_TWO_ID = userID;
      PLAYER_TWO_NAME = userName
@@ -89,7 +73,10 @@ if(USERS['players'][Object.keys(USERS['players'])[0]]) {
 users[Object.keys(USERS['players'])[0]] = {
      username: Object.values(Object.values(USERS['players']))[0]['name'],
      id: Object.keys(USERS['players'])[0],
-     option: null
+     option: null,
+     wins: 0,
+     lost: 0,
+     draws: 0
 }
 PLAYER_TWO_ID = Object.keys(USERS['players'])[0];
 PLAYER_TWO_NAME = Object.values(Object.values(USERS['players']))[0]['name'];
@@ -172,17 +159,29 @@ socket.on('UserSelected', async ({option, UserID, userName, RoomID }) => {
           } else {
                winner = null;
           }
+          let winnerMsg;
           if(winner !== null) {
+          if(winner !== USER_ID && winner !== 'draw') winnerMsg = 'You lost!'
+          else if(winner === USER_ID) winnerMsg = 'You Won!'
+          else winnerMsg = 'Draw!'
           getElement('id', 'notifymsg').innerHTML =  ``
           getElement('id', 'reset').style['display'] = 'inline';
-          if(winner === 'draw') {
-               getElement('id', 'winnermsg').innerHTML =  'Draw!'
+               getElement('id', 'winnermsg').innerHTML =  winnerMsg
                getElement('id', 'reset').style['display'] = 'inline';
-          } else {
-               getElement('id', 'winnermsg').innerHTML = `${users[winner]['username']} won`
-               getElement('id', 'reset').style['display'] = 'inline';
-          }
           getElement('id', 'reset').style['display'] = 'inline';
+          if(winner === 'draw') {
+               users[USER_ID]['draws'] += 1;
+               users[PLAYER_TWO_ID]['draws'] += 1;
+          } else if(winner === USER_ID) {
+               users[USER_ID]['wins'] += 1;
+               users[PLAYER_TWO_ID]['lost'] += 1;
+          } else {
+               users[USER_ID]['lost'] += 1;
+               users[PLAYER_TWO_ID]['wins'] += 1;
+          }
+          getElement('id', 'winCount').innerHTML = `Won: ${users[USER_ID]['wins']}`
+          getElement('id', 'drawCount').innerHTML = `Draw: ${users[USER_ID]['draws']}`
+          getElement('id', 'lostCount').innerHTML = `Lost: ${users[USER_ID]['lost']}`
      } else {
           getElement('id', 'notifymsg').innerHTML =  `${userName} has chosen`
      }

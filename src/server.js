@@ -25,7 +25,7 @@ app.get('/:roomID', (req, res) => {
      const { roomID } = req.params;
      console.log(rooms)
      if(rooms[roomID]) {
-     if(Object.values(rooms[roomID]['players']).length < 2) { 
+     if(Object.values(rooms[roomID]['players']).length < 2) {
      res.render('game', {
           'RoomID': roomID,
           'Users': JSON.stringify(rooms[roomID])
