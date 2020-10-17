@@ -1,11 +1,12 @@
 let socket = io()
 
 function makeid() {
-     let text = "";
-     let possible = "ABCDEFGHIJKLGEGEEy4heakie5tSTUVWXYZabcdefgafgqagehijklmnopqrstuvwxyz0123456789ag3e7ywegsq36yegw3qtf";
-     for (let i = 0; i < 30; i++)
-       text += possible.charAt(Math.floor(Math.random() * possible.length));
-     return text;
+     let id = "";
+     let letters = "ABCDEFGHIJKLGEGEEy4heakie5tSTUVWXYZabcdefgafgqagehijklmnopqrstuvwxyz0123456789ag3e7ywegsq36yegw3qtf";
+     for (let i = 0; i < 30; i++) {
+          id += letters.charAt(Math.floor(Math.random() * letters.length));
+     }
+     return id;
 }
 
 const USER_ID = makeid()
